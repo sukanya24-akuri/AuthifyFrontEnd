@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom'
 import { assets } from '../assets/assets'
 
 export const Login = () => {
-  const[isCreateAccount,setIsCreateAccount]=useState(false)
+  const[isCreateAccount,setIsCreateAccount]=useState(false);
+  const [name,setName]=useState("");
+  const[email,setEmail]=useState("");
+  const[password,setPassword]=useState("");
+  const[loading,setLoading]=useState(false);
+  const onSubmitHandler=async (e)=>{
+    e.preventDefault();
+  }
+
   return (
   <div className="position-relative min-vh-100 d-flex justify-content-center align-items-center"
   style={{
@@ -28,7 +36,7 @@ export const Login = () => {
       <h2 className="text-center mb-4">
        {isCreateAccount?"Create Account":"Login"}
       </h2>
-      <form >
+      <form onSubmit={onSubmitHandler}>
         {
           isCreateAccount && 
           <div className="mb-3">
@@ -38,6 +46,8 @@ export const Login = () => {
           className="form-control"
           placeholder='Enter full name'
           required
+          onChange={(e)=>setName(e.target.value)}
+          value={name}
           />
         </div>
         }
@@ -48,6 +58,8 @@ export const Login = () => {
           className="form-control"
           placeholder='Enter email'
           required
+          onChange={(e)=>setEmail(e.target.email)}
+          value={email}
           />
           </div>
           <div className="mb-3">
@@ -57,6 +69,8 @@ export const Login = () => {
           className="form-control"
           placeholder='Enter password'
           required
+          onChange={(e)=>setPassword(e.target.value)}
+          value={pas}
           />
         </div>
         <div className="d-flex justify-content-between mb-3">

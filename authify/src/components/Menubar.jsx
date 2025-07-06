@@ -7,36 +7,51 @@ import { toast } from "react-toastify";
 
 export const Menubar = () => {
   const navigate = useNavigate();
-  const { userData,backEnd ,setIsLoggedIn,setUserData} = useContext(AppContext);
+  const { userData, backEnd, setIsLoggedIn, setUserData } =
+    useContext(AppContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  useEffect(()=>{
-    const handleClickOutside=(event)=>{
-        if(dropdownRef.current && !dropdownRef.current.contains(event.target))
-        {
-            setDropdownOpen(false);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      axios.defaults.withCredentials = true;
+      const response = await axios.post(backEnd + "/logout");
+      if (response.status === 200) {
+        setIsLoggedIn(false);
+        setUserData(false);
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error("something went wrong");
     }
   };
-  document.addEventListener("mousedown",handleClickOutside);
-  return()=>document.removeEventListener("mousedown",handleClickOutside);
 
-},[]);
-
-const handleLogout=async()=>{
+  const sendEmailVerificationOTP = async () => {
     try {
-        axios.defaults.withCredentials=true;
-        const response=await axios.post(backEnd+"/logout");
-        if(response.status===200)
-        {
-            setIsLoggedIn(false);
-            setUserData(false);
-            navigate("/");
-        }
+      axios.defaults.withCredentials = true;
+      const response = await axios.post(backEnd + "/send-otp");
+      
+      if (response.status === 200) {
+        navigate("/emailverify");
+        
+        toast.success("OPT has been sent successfully");
+      } else {
+        toast.error("Unable to sent OTP");
+      }
     } catch (error) {
-       toast.error("something went wrong"); 
+      toast.error(error.response.data.message);
     }
-}
+  };
   return (
     <nav className="navbar bg-secondary px-5 py-4 d-flex justify-content-between align-items-center">
       <div className="d-flex align-items-center gap-2">
@@ -70,27 +85,28 @@ const handleLogout=async()=>{
                 top: "50px",
                 right: 0,
                 zIndex: 3000,
-               
               }}
             >
               {!userData.isAccountVerified && (
                 <div
                   className="dropdown-item py-1 px-2"
-                  style={{cursor: "pointer",}}>
+                  style={{ cursor: "pointer" }}
+                  onClick={sendEmailVerificationOTP}
+                >
                   Verify email
                 </div>
               )}
               <div
-            className="dropdown-item py-1 px-2 text-danger"
-            style={{
-              cursor: "pointer"}}
-              onClick={handleLogout}
-            >
-            Logout
-          </div>
+                className="dropdown-item py-1 px-2 text-danger"
+                style={{
+                  cursor: "pointer",
+                }}
+                onClick={handleLogout}
+              >
+                Logout
+              </div>
             </div>
           )}
-          
         </div>
       ) : (
         <div

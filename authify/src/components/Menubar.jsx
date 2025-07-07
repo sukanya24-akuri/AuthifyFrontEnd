@@ -84,7 +84,7 @@ export const Menubar = () => {
               style={{
                 top: "50px",
                 right: 0,
-                zIndex: 3000,
+                zIndex: 100,
               }}
             >
               {!userData.isAccountVerified && (

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets.js";
 import { AppContext } from "../context/AppContext.jsx";
@@ -55,7 +55,13 @@ export const EmailVerify = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }
+  useEffect(
+    ()=>{
+      userData &&
+      isLoggedIn && userData.isAccountVerified && navigate("/");
+    },[isLoggedIn,userData]
+  )
   return (
     <div
       className="email-verify-container d-flex align-items-center justify-content-center vh-100 position-relative"

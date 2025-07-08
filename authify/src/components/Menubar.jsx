@@ -113,7 +113,7 @@ export const Menubar = () => {
           className="btn btn-outline-dark rounded-pill px-3"
           onClick={() => navigate("/login")}
         >
-          Login <i className="bi bi-arrow-right ms-3"></i>
+          Log in <i className="bi bi-arrow-right ms-3"></i>
         </div>
       )}
     </nav>

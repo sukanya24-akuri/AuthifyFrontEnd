@@ -33,7 +33,7 @@ const getUserData= async()=>{
     const getAuthState=async()=>{
         try
         {
-        const response=await axios.post(backEnd+"/isAuthify");
+        const response=await axios.get(backEnd+"isAuthify");
         
         if(response.status===200 && response.data===true) 
         {
@@ -46,8 +46,7 @@ const getUserData= async()=>{
         }
     }
     catch (error) {
-      const msg = error.response?.data?.message || "Authentication failed";
-      toast.error(msg);
+      console.error("Error fetching authentication state:", error);
       setIsLoggedIn(false);
     }
     useEffect(() => {

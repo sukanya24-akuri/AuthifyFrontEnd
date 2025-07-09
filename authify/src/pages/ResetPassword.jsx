@@ -3,6 +3,7 @@ import { assets } from "../assets/assets.js";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const ResetPassword = () => {
   const inputRef = useRef([]);
@@ -10,9 +11,9 @@ export const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [isEmailSent, setIsEmailSent] = useState(true);
+  const [isEmailSent, setIsEmailSent] = useState(false);
   const [otp, setOtp] = useState("");
-  const [isOtpSubmitted, setIsOtpSubmitted] = useState(true);
+  const [isOtpSubmitted, setIsOtpSubmitted] = useState(false);
   const { getUserData, isLoggedIn, userData, backEnd } = useContext(AppContext);
   axios.defaults.withCredentials = true;
   const handleChange = (e, index) => {
@@ -37,12 +38,67 @@ export const ResetPassword = () => {
     });
     const next = paste.length < 6 ? paste.length : 5;
     inputRef.current[next].focus();
-  };
+  }
+  const onSubmitHandler= async(e)=>{
+    e.preventDefault();
+    setLoading(true);
+    try{
+      const response=await axios.post(backEnd + "/send-otp-email?email=" + email);
+      if(response.status === 200)
+        {
+          toast.success("Email sent successfully. Please check your inbox.");
+          setIsEmailSent(true)
+  
+    }
+    else{
+      toast.error("Failed to send email. Please try again.");
+    }
+  }
+    catch(error)
+    {
+      console.error("Error sending email:", error);
+      toast.error("An error occurred while sending the email. Please try again.");
+    } finally
+    {
+      setLoading(false);
+    }
+  }
+const handleVerify=() =>
+   {
+    const otp=inputRef.current.map((input) => input.value).join("");
+    if (otp.length !=6) {
+      toast.error("Please enter a valid 6-digit OTP.");
+      return;  
+}
+setOtp(otp);
+setIsOtpSubmitted(true);
+   }
 
+   const onSubmitResetPassword = async (e) =>
+     {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await axios.post(backEnd +"/reset-password",{email, newPassword,otp });
+      if(response.status === 200) {
+        toast.success("Password reset successfully.");
+        navigate("/login");
+      }
+      else{
+        toast.error("Failed to reset password. Please try again.");
+      }
+   }
+   catch (error) {
+toast.error(error.response?.data?.message || "An error occurred while resetting the password. Please try again.");
+   }
+   finally {
+    setLoading(false);
+   }
+  }
   return (
     <div
       className="d-flex align-items-center justify-content-center vh-100 position-relative"
-      style={{ border: "none", background: "gray" }}
+      style={{border: "none", background: "gray" }}
     >
       <Link
         to="/"
@@ -59,7 +115,7 @@ export const ResetPassword = () => {
         >
           <h4 className="mb-2">Reset Password</h4>
           <p className="mb-4">Enter your registered email address</p>
-          <form>
+          <form onSubmit={onSubmitHandler}>
             <div className="input-group mb-2 bg-secondary bg-opacity-10 rounded-pill">
               <span className="input-group-text bg-transparent border-0 ps-4">
                 <i className="bi bi-envelope"></i>
@@ -74,8 +130,8 @@ export const ResetPassword = () => {
                 required
               />
             </div>
-            <button className="btn btn-primary w-10 py-2" type="submit">
-              Submit
+            <button className="btn btn-primary w-10 py-2" type="submit" disabled={loading}>
+             {loading ? "Sending..." : "Submit"}
             </button>
           </form>
         </div>
@@ -106,7 +162,7 @@ export const ResetPassword = () => {
           </div>
           <button
             className="btn btn-primary w-100 fw-semibold"
-            disabled={loading}
+            disabled={loading} onClick={handleVerify}
           >
             {loading ? "verifying" : "verify email"}
           </button>
@@ -120,7 +176,7 @@ export const ResetPassword = () => {
         >
           <h4>New Password</h4>
           <p className="mb-4">Enter the new Password below</p>
-          <form>
+          <form onSubmit={onSubmitResetPassword}>
             <div className="input-group mb-4 bg-secondary bg-opacity-10 rounded-pill">
               <span className="input-group-text bg-transparent border-0 ps-4">
                 <i className="bi bi-person-fill-lock"></i>
@@ -135,8 +191,8 @@ export const ResetPassword = () => {
                 required
               />
             </div>
-            <button type="submit" className="btn btn-primary w-100">
-              Submit
+            <button type="submit" className="btn btn-primary w-100" disabled={loading} >
+              {loading ? "Resetting..." : "Submit"}
             </button>
           </form>
         </div>

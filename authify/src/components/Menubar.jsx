@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { emit } from "dom/lib/event";
 
 export const Menubar = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ export const Menubar = () => {
     useContext(AppContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -42,14 +44,15 @@ export const Menubar = () => {
       const response = await axios.post(backEnd + "/send-otp");
       
       if (response.status === 200) {
-        navigate("/emailverify");
         
         toast.success("OPT has been sent successfully");
+        navigate("/emailverify");
+        
       } else {
         toast.error("Unable to sent OTP");
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+    console.error("Error sending email verification OTP:", error);
     }
   };
   return (

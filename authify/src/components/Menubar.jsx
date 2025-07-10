@@ -42,19 +42,17 @@ export const Menubar = () => {
     try {
       axios.defaults.withCredentials = true;
       const response = await axios.post(backEnd + "/send-otp");
-      
+
       if (response.status === 200) {
-        
-        toast.success("OPT has been sent successfully");
         navigate("/emailverify");
-        
+        toast.success("OPT has been sent successfully");
       } else {
         toast.error("Unable to sent OTP");
       }
     } catch (error) {
     console.error("Error sending email verification OTP:", error);
     }
-  };
+  }
   return (
     <nav className="navbar bg-secondary px-5 py-4 d-flex justify-content-between align-items-center">
       <div className="d-flex align-items-center gap-2">

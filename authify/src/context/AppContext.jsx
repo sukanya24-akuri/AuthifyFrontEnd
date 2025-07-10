@@ -33,7 +33,7 @@ const getUserData= async()=>{
     const getAuthState=async()=>{
         try
         {
-        const response=await axios.get(backEnd+"isAuthify");
+        const response=await axios.get(backEnd+"/isAuthify");
         
         if(response.status===200 && response.data===true) 
         {

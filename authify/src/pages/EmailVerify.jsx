@@ -44,9 +44,10 @@ export const EmailVerify = () => {
     try {
       const response = await axios.post(backEnd + "/verify-otp",{otp});
       if (response.status === 200) {
+        
         toast.success("OTP verified successfully");
-    await  getUserData();
-        navigate("/");
+   await getUserData();
+window.location.reload();
       } else {
         toast.error("Invalid OTP");
       }

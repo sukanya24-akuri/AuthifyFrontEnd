@@ -12,7 +12,7 @@ const backEnd=AppConstants.BACKEND_URL;
 const [isLoggedIn,setIsLoggedIn]=useState(false);
 const [userData,setUserData]=useState(false);
 const getUserData= async()=>{
-    const response=await axios.get(`${backEnd}/profile`);
+    const response=await axios.get(backEnd+"/profile");
     if(response.status===200)
     {
        setUserData(response.data);
@@ -49,11 +49,11 @@ const getUserData= async()=>{
       console.error("Error fetching authentication state:", error);
       setIsLoggedIn(false);
     }
+}
     useEffect(() => {
     getAuthState();
   }, []);
-
-    }
+    
     return(
         <AppContext.Provider value={contextValue}>
         {props.children}

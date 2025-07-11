@@ -13,10 +13,10 @@ export const Header = () => {
           role="img" aria-label="wave">👋</span>
       </h5>
       <h1 className="fw-bold display-5 mb-3">
-        Welcome to our product
+        Welcome to our product!
       </h1>
       <p className="text-muted mb-4 fs-5" style={{maxWidth:"500px"}}>
- Let's start with a quick product tour and you can setup the authentication in on time!
+ Let’s start with a quick product tour so you can set up authentication in no time!!
       </p>
       <button className="btn btn-outline-dark rounded-pill px-4 py-2">Get Started</button>
     </div>

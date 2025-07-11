@@ -4,7 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { emit } from "dom/lib/event";
+
 
 export const Menubar = () => {
   const navigate = useNavigate();
@@ -12,14 +12,14 @@ export const Menubar = () => {
     useContext(AppContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-   axios.defaults.withCredentials = true;
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
       }
-    };
+    }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -30,7 +30,7 @@ export const Menubar = () => {
       const response = await axios.post(backEnd + "/logout");
       if (response.status === 200) {
         setIsLoggedIn(false);
-        setUserData(false);
+        setUserData(null);
         navigate("/");
       }
     } catch (error) {
@@ -61,7 +61,7 @@ export const Menubar = () => {
           alt="logohome"
           width={36}
           height={36}
-          onClick={() => navigate("/")}
+          // onClick={() => navigate("/")}
         />
         <span className="fw-bold fs-4 text-dark">Authify</span>
       </div>
@@ -88,7 +88,7 @@ export const Menubar = () => {
                 zIndex: 100,
               }}
             >
-              {!userData.isAccountVerified && (
+              {!userData?.isAccountVerified && (
                 <div
                   className="dropdown-item py-1 px-2"
                   style={{ cursor: "pointer" }}
@@ -106,6 +106,7 @@ export const Menubar = () => {
               >
                 Logout
               </div>
+              
             </div>
           )}
         </div>
@@ -118,5 +119,6 @@ export const Menubar = () => {
         </div>
       )}
     </nav>
-  );
-};
+  )
+}
+export default Menubar;

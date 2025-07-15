@@ -47,7 +47,8 @@ export const EmailVerify = () => {
         
         toast.success("OTP verified successfully");
    await getUserData();
-window.location.reload();
+   
+   navigate("/");
       } else {
         toast.error("Invalid OTP");
       }
@@ -103,5 +104,6 @@ window.location.reload();
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
+export default EmailVerify;

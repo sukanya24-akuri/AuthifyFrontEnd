@@ -10,6 +10,8 @@ export const Menubar = () => {
   const navigate = useNavigate();
   const { userData, backEnd, setIsLoggedIn, setUserData } =
     useContext(AppContext);
+    console.log("Is Account Verified?", userData?.isverifired
+);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   
@@ -88,7 +90,7 @@ export const Menubar = () => {
                 zIndex: 100,
               }}
             >
-              {!userData?.isAccountVerified && (
+              {!userData?.isverifired && (
                 <div
                   className="dropdown-item py-1 px-2"
                   style={{ cursor: "pointer" }}

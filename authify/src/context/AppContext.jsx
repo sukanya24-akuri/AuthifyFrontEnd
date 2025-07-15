@@ -16,12 +16,13 @@ const getUserData= async()=>{
     if(response.status===200)
     {
        setUserData(response.data);
-       
+       console.log("User Data:", response.data);      
     }
     else{
         toast.error("unable to fetch the profile data");
     }
 }
+
     const contextValue={
         backEnd,
         isLoggedIn,

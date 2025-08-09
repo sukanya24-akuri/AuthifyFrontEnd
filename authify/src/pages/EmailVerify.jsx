@@ -4,6 +4,7 @@ import { assets } from "../assets/assets.js";
 import { AppContext } from "../context/AppContext.jsx";
 import { toast } from "react-toastify";
 import axios from "axios";
+import "../pages/Style.css";
 
 export const EmailVerify = () => {
   const inputRef = useRef([]);
@@ -66,8 +67,7 @@ export const EmailVerify = () => {
   )
   return (
     <div
-      className="email-verify-container d-flex align-items-center justify-content-center vh-100 position-relative"
-      style={{ backgroundColor: "grey" }}
+      className="email-verify-container d-flex align-items-center justify-content-center vh-100 position-relative login-container01"
     >
       <Link
         to="/"

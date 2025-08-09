@@ -4,6 +4,7 @@ import { assets } from "../assets/assets";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { AppContext } from "../context/AppContext.jsx";
+import "../pages/Style.css";
 
 export const Login = () => {
   const [isCreateAccount, setIsCreateAccount] = useState(false);
@@ -55,7 +56,7 @@ export const Login = () => {
 
   return (
     <div
-      className="position-relative min-vh-100 d-flex justify-content-center align-items-center"
+      className="position-relative min-vh-100 d-flex justify-content-center align-items-center login-container"
       style={{
         backgroundColor: "white",
         border: "none",
@@ -81,7 +82,7 @@ export const Login = () => {
           }}
         >
           <img src={assets.logohome} alt="logo" height={32} width={32} />
-          <span className="fw-bold fs-4 text-dark">Authify</span>
+          <span className="fw-bold fs-4 text-white">Authify</span>
         </Link>
       </div>
       <div className="card p-4" style={{ maxWidth: "400px", width: "100%" }}>
@@ -127,17 +128,18 @@ export const Login = () => {
               type="password"
               id="password"
               className="form-control"
-              placeholder="Enter password"
+              placeholder="Enter password atleast 6 characters"
               required
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
           </div>
+          {!isCreateAccount && (
           <div className="d-flex justify-content-between mb-3">
             <Link to="/reset-password" className="text-decoration-none">
               Forgot Password
             </Link>
-          </div>
+          </div>)}
           <button
             type="submit "
             className="btn btn-primary w-100"

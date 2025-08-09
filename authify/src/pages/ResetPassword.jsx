@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "../pages/Style.css";
 
 export const ResetPassword = () => {
   const inputRef = useRef([]);
@@ -97,7 +98,7 @@ toast.error(error.response?.data?.message || "An error occurred while resetting 
   }
   return (
     <div
-      className="d-flex align-items-center justify-content-center vh-100 position-relative"
+      className="d-flex align-items-center justify-content-center vh-100 position-relative login-container01"
       style={{border: "none", background: "gray" }}
     >
       <Link
